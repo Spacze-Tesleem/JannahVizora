@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+/* 🎨 DESIGN SYSTEM — ALL IN ONE PLACE */
+@theme {
+  --color-cream-50: #FCFCFA;
+  --color-cream-100: #F9F8F4;
+  --color-cream-200: #EFECE6;
+
+  --color-gold-400: #E5C558;
+  --color-gold-500: #D4AF37;
+  --color-gold-600: #B5942D;
+
+  --color-charcoal: #1C1917;
+
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-lato);
+}
+
+/* Base styles */
+body {
+  background-color: var(--color-cream-100);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+}
