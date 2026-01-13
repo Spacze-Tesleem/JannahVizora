@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { motion, Variants } from "framer-motion"; // 1. Import Variants type
+// 1. Import Variants type
+import { motion, Variants } from "framer-motion"; 
 import { ArrowRight, Instagram, Sparkles } from "lucide-react";
 
 // Custom TikTok Icon
@@ -18,7 +19,8 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 
 const Hero = () => {
   // --- Animation Variants ---
-  // 2. Add ': Variants' type annotation here
+  
+  // 2. Add ': Variants' type annotation
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -30,7 +32,7 @@ const Hero = () => {
     },
   };
 
-  // 3. Add ': Variants' type annotation here
+  // 3. Add ': Variants' type annotation
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
     visible: {
@@ -45,7 +47,6 @@ const Hero = () => {
 
       {/* --- Ambient Background Effects --- */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-        {/* Deep Gold Glow (Top Left) */}
         <motion.div
           animate={{
             scale: [1, 1.2, 1],
@@ -55,7 +56,6 @@ const Hero = () => {
           className="absolute -top-[20%] -left-[10%] w-[80vh] h-[80vh] rounded-full bg-[#B88746] blur-[140px] opacity-20"
         />
 
-        {/* Light Cream/Gold Glow (Bottom Right) */}
         <motion.div
           animate={{
             scale: [1, 1.1, 1],
@@ -65,7 +65,6 @@ const Hero = () => {
           className="absolute top-[40%] -right-[10%] w-[60vh] h-[60vh] rounded-full bg-[#D4AF37] blur-[150px] opacity-10"
         />
 
-        {/* Grain Texture */}
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.04] brightness-100 contrast-150"></div>
       </div>
 
@@ -93,10 +92,7 @@ const Hero = () => {
             variants={itemVariants}
             className="text-5xl md:text-7xl lg:text-8xl font-medium tracking-tight mb-8 leading-[1.1]"
           >
-            {/* Cream Text */}
             <span className="text-[#FDFBF7]">Elevate your Brand.</span> <br />
-
-            {/* Metallic Gold Gradient Text */}
             <span className="font-serif italic pr-2 text-transparent bg-clip-text bg-gradient-to-r from-[#B88746] via-[#FDF5A6] to-[#B88746] drop-shadow-sm">
               Create Magic.
             </span>
@@ -116,7 +112,6 @@ const Hero = () => {
             variants={itemVariants}
             className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full"
           >
-            {/* Primary Button */}
             <a
               href="#"
               className="group relative w-full sm:w-auto px-10 py-4 bg-[#FDFBF7] text-[#050505] rounded-full overflow-hidden transition-transform hover:-translate-y-1"
@@ -128,7 +123,6 @@ const Hero = () => {
             </a>
 
             <div className="flex items-center gap-3">
-              {/* Instagram Button */}
               <a
                 href="https://www.instagram.com/jannahvizora?igsh=cGN6Nm1mcXFqNnhn&utm_source=qr"
                 target="_blank"
@@ -139,7 +133,6 @@ const Hero = () => {
                 <Instagram className="w-5 h-5 transition-transform group-hover:scale-110" />
               </a>
 
-              {/* TikTok Button */}
               <a
                 href="https://www.tiktok.com/@jannahvizora?_r=1&_t=ZS-92zL4sWVq1w"
                 target="_blank"
@@ -154,9 +147,7 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      {/* --- Decorative Footer Gradient Line --- */}
       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent"></div>
-
     </section>
   );
 };
