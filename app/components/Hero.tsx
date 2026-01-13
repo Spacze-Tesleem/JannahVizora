@@ -154,7 +154,7 @@ const Hero = () => {
         </motion.div>
       </div>
 
-      {/* --- Decorative Footer Gradient Line --- */}
+      
       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent"></div>
 
     </section>
