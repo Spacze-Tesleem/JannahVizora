@@ -9,11 +9,11 @@ import { ArrowRight, MoveUpRight } from "lucide-react";
 const PROJECTS = [
   {
     id: "01",
-    title: "Obsidian Tower",
-    location: "Kyoto, Japan",
+    title: "Wedding Settings",
+    location: "Ilorin, Kwara State",
     service: "Architecture",
     year: "2023",
-    image: "https://images.unsplash.com/photo-1486325212027-8081e485255e?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project0.JPG",
   },
   {
     id: "02",
@@ -21,7 +21,7 @@ const PROJECTS = [
     location: "Reykjavík, Iceland",
     service: "Interior",
     year: "2024",
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project1.JPG",
   },
   {
     id: "03",
@@ -29,7 +29,7 @@ const PROJECTS = [
     location: "Berlin, Germany",
     service: "Cultural",
     year: "2022",
-    image: "https://images.unsplash.com/photo-1506146332389-18140dc7b2fb?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project2.JPG",
   },
   {
     id: "04",
@@ -37,7 +37,7 @@ const PROJECTS = [
     location: "Los Angeles, USA",
     service: "Residential",
     year: "2023",
-    image: "https://images.unsplash.com/photo-1600607686527-6fb886090705?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project3.jpg",
   },
   {
     id: "05",
@@ -45,7 +45,7 @@ const PROJECTS = [
     location: "Swiss Alps",
     service: "Concept",
     year: "2025",
-    image: "https://images.unsplash.com/photo-1517581177697-a00a186a8cd6?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project5.jpg",
   },
 ];
 

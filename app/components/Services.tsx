@@ -12,7 +12,7 @@ const SERVICES = [
     title: "Personal Branding",
     tagline: "The Signature",
     icon: <Crown className="h-6 w-6" />,
-    image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project3.jpg",
     description: "We don't just build a reputation; we construct a legacy. For those who need their digital presence to match their physical influence.",
     includes: ["Identity Systems", "Visual Direction", "Positioning Strategy", "Executive Presence"],
     for: "CEOs, Founders, & Public Figures",
@@ -23,7 +23,7 @@ const SERVICES = [
     title: "Social Strategy",
     tagline: "The Broadcast",
     icon: <Radio className="h-6 w-6" />,
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project10.jpg",
     description: "Moving beyond 'posting' into 'broadcasting.' We curate the signal within the noise to ensure your authority is unquestioned.",
     includes: ["Content Strategy", "Growth Roadmap", "Brand Voice Calibration", "Analytics Suite"],
     for: "High-Growth Brands & Leaders",
@@ -34,7 +34,7 @@ const SERVICES = [
     title: "Events & Experience",
     tagline: "The Atmosphere",
     icon: <Layers className="h-6 w-6" />,
-    image: "https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project28.jpg",
     description: "Translating the digital brand into a physical reality. We design moments that linger in the memory long after the guests leave.",
     includes: ["Event Concept", "Activations", "Creative Direction", "VIP Experiences"],
     for: "Luxury Launches & Exclusives",
@@ -44,25 +44,37 @@ const SERVICES = [
 
 // --- Floating Particles Component ---
 const FloatingParticles = () => {
+  const [particles, setParticles] = useState<{x: string; y: string; scale: number; duration: number; delay: number}[]>([]);
+
+  useEffect(() => {
+    setParticles([...Array(20)].map(() => ({
+      x: Math.random() * 100 + "%",
+      y: Math.random() * 100 + "%",
+      scale: Math.random() * 0.5 + 0.5,
+      duration: Math.random() * 10 + 15,
+      delay: Math.random() * 5,
+    })));
+  }, []);
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(20)].map((_, i) => (
+      {particles.map((particle, i) => (
         <motion.div
           key={i}
           className="absolute w-1 h-1 bg-amber-200/20 rounded-full"
           initial={{
-            x: Math.random() * 100 + "%",
-            y: Math.random() * 100 + "%",
-            scale: Math.random() * 0.5 + 0.5,
+            x: particle.x,
+            y: particle.y,
+            scale: particle.scale,
           }}
           animate={{
             y: [null, "-20%", "120%"],
             opacity: [0, 1, 0],
           }}
           transition={{
-            duration: Math.random() * 10 + 15,
+            duration: particle.duration,
             repeat: Infinity,
-            delay: Math.random() * 5,
+            delay: particle.delay,
             ease: "linear",
           }}
         />

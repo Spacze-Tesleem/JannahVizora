@@ -2,8 +2,9 @@
 
 import React, { useRef, useState, useEffect, useCallback, useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
-import { ArrowUpRight, Instagram, MoveRight, Play, Sparkles, Eye, Heart, MessageCircle, Share2, Filter, Grid3X3, LayoutGrid, Pause } from "lucide-react";
+import { ArrowUpRight, Instagram, MoveRight, Play, Sparkles, Eye, Heart, MessageCircle, Share2, Filter, Grid3X3, LayoutGrid, Pause, ExternalLink } from "lucide-react";
 
 // --- Types ---
 interface Project {
@@ -31,7 +32,7 @@ const PROJECTS: Project[] = [
     client: "Maison Alara",
     category: "Brand Identity",
     year: "2024",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project1.JPG",
     size: "col-span-1 md:col-span-2 row-span-2",
     color: "#C5A059",
     stats: { views: "12.4K", likes: "2.1K" },
@@ -42,7 +43,7 @@ const PROJECTS: Project[] = [
     client: "The Vogue Summit",
     category: "Event Experience",
     year: "2024",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project2.JPG",
     size: "col-span-1 md:col-span-1 row-span-1",
     color: "#8B7355",
     stats: { views: "8.7K", likes: "1.5K" },
@@ -53,7 +54,7 @@ const PROJECTS: Project[] = [
     client: "Elena V.",
     category: "Personal Branding",
     year: "2023",
-    image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project3.jpg",
     size: "col-span-1 md:col-span-1 row-span-2",
     color: "#D4AF37",
     stats: { views: "15.2K", likes: "3.8K" },
@@ -64,7 +65,7 @@ const PROJECTS: Project[] = [
     client: "Onyx Digital",
     category: "Social Strategy",
     year: "2024",
-    image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project4.jpg",
     size: "col-span-1 md:col-span-1 row-span-1",
     color: "#A67C52",
     stats: { views: "6.3K", likes: "980" },
@@ -75,7 +76,139 @@ const PROJECTS: Project[] = [
     client: "Lumière Studios",
     category: "Visual Direction",
     year: "2024",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop",
+    image: "/Project/Project5.jpg",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "06",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project6.jpg",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "08",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project8.JPG",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "09",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project9.JPG",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "10",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project10.jpg",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "11",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project11.jpg",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "12",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project12.jpg",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "13",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project13.jpg",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "24",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project24.jpg",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "25",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project25.jpg",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "27",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project27.jpg",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "28",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project28.jpg",
+    size: "col-span-1 md:col-span-2 row-span-1",
+    color: "#BFA980",
+    stats: { views: "9.1K", likes: "1.7K" },
+    featured: false,
+  },
+  {
+    id: "29",
+    client: "Lumière Studios",
+    category: "Visual Direction",
+    year: "2024",
+    image: "/Project/Project29.jpg",
     size: "col-span-1 md:col-span-2 row-span-1",
     color: "#BFA980",
     stats: { views: "9.1K", likes: "1.7K" },
@@ -84,13 +217,47 @@ const PROJECTS: Project[] = [
 ];
 
 // --- Instagram Feed Data (Enhanced) ---
-const INSTA_FEED: InstaItem[] = [
-  { src: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500", likes: "1,234", type: "image" },
-  { src: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500", likes: "2,567", type: "video" },
-  { src: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=500", likes: "892", type: "image" },
-  { src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500", likes: "3,421", type: "image" },
-  { src: "https://images.unsplash.com/photo-1519671482538-518b48d19eb8?w=500", likes: "1,876", type: "video" },
-  { src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500", likes: "4,123", type: "image" },
+const INSTA_POSTS = [
+  {
+    id: 1,
+    image: "/Project/brand.PNG",
+    likes: "2.4k",
+    comments: "48",
+    caption: "Brand Launched 🏛️ #Vizora",
+    isLarge: true, // This determines the Bento Grid layout
+  },
+  {
+    id: 2,
+    image: "/Project/services.PNG",
+    likes: "892",
+    comments: "12",
+    caption: "Texture study No. 5",
+    isLarge: false,
+  },
+  {
+    id: 3,
+    image: "/Project/Project10.jpg",
+    likes: "1.1k",
+    comments: "34",
+    caption: "Sunday mood.",
+    isLarge: false,
+  },
+  {
+    id: 4,
+    image: "/Project/Project24.jpg",
+    likes: "3.2k",
+    comments: "120",
+    caption: "New horizons.",
+    isLarge: false,
+  },
+  {
+    id: 5,
+    image: "/Project/Project25.jpg",
+    likes: "945",
+    comments: "22",
+    caption: "Details matter.",
+    isLarge: false,
+  },
 ];
 
 // --- Filter Categories ---
@@ -98,17 +265,18 @@ const CATEGORIES = ["All", "Brand Identity", "Event Experience", "Personal Brand
 
 // --- Floating Particles Component (Memoized for performance) ---
 const FloatingParticles = React.memo(() => {
-  // Generate particles once
-  const particles = useMemo(() => 
-    [...Array(15)].map((_, i) => ({
+  const [particles, setParticles] = useState<{id: number; initialX: string; initialY: string; scale: number; duration: number; delay: number}[]>([]);
+
+  useEffect(() => {
+    setParticles([...Array(15)].map((_, i) => ({
       id: i,
       initialX: `${Math.random() * 100}%`,
       initialY: `${Math.random() * 100}%`,
       scale: Math.random() * 0.5 + 0.5,
       duration: Math.random() * 15 + 20,
       delay: Math.random() * 10,
-    })),
-  []);
+    })));
+  }, []);
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -262,9 +430,8 @@ const ProjectCard = React.memo(({ project, index, viewMode, onHover }: ProjectCa
       transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
       onMouseEnter={() => handleHover(true)}
       onMouseLeave={() => handleHover(false)}
-      className={`relative group overflow-hidden cursor-pointer ${
-        viewMode === "masonry" ? project.size : "col-span-1"
-      }`}
+      className={`relative group overflow-hidden cursor-pointer ${viewMode === "grid" ? project.size : "col-span-1"
+        }`}
       role="button"
       tabIndex={0}
       aria-label={`View ${project.client} project`}
@@ -511,8 +678,7 @@ export default function PortfolioSection() {
   const [viewMode, setViewMode] = useState<"grid" | "masonry">("masonry");
   const [isHoveringProject, setIsHoveringProject] = useState(false);
   const [cursorText, setCursorText] = useState("View");
-  const [marqueeSpeed, setMarqueeSpeed] = useState(1);
-  const [isMarqueePaused, setIsMarqueePaused] = useState(false);
+  const [hoveredPost, setHoveredPost] = useState<number | null>(null);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -522,7 +688,7 @@ export default function PortfolioSection() {
   const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.5, 1, 1, 0.5]);
 
-  const filteredProjects = useMemo(() => 
+  const filteredProjects = useMemo(() =>
     activeFilter === "All"
       ? PROJECTS
       : PROJECTS.filter((p) => p.category === activeFilter),
@@ -664,11 +830,10 @@ export default function PortfolioSection() {
                 >
                   <button
                     onClick={() => setViewMode("masonry")}
-                    className={`p-2 rounded-full transition-all ${
-                      viewMode === "masonry"
-                        ? "bg-[#1A1510] text-white"
-                        : "text-[#1A1510]/40 hover:text-[#1A1510]"
-                    }`}
+                    className={`p-2 rounded-full transition-all ${viewMode === "masonry"
+                      ? "bg-[#1A1510] text-white"
+                      : "text-[#1A1510]/40 hover:text-[#1A1510]"
+                      }`}
                     aria-label="Masonry view"
                     aria-pressed={viewMode === "masonry"}
                   >
@@ -676,11 +841,10 @@ export default function PortfolioSection() {
                   </button>
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`p-2 rounded-full transition-all ${
-                      viewMode === "grid"
-                        ? "bg-[#1A1510] text-white"
-                        : "text-[#1A1510]/40 hover:text-[#1A1510]"
-                    }`}
+                    className={`p-2 rounded-full transition-all ${viewMode === "grid"
+                      ? "bg-[#1A1510] text-white"
+                      : "text-[#1A1510]/40 hover:text-[#1A1510]"
+                      }`}
                     aria-label="Grid view"
                     aria-pressed={viewMode === "grid"}
                   >
@@ -721,11 +885,10 @@ export default function PortfolioSection() {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.8 + i * 0.05 }}
                   onClick={() => setActiveFilter(cat)}
-                  className={`px-4 py-2 font-mono text-[10px] uppercase tracking-widest rounded-full border transition-all duration-300 ${
-                    activeFilter === cat
-                      ? "bg-[#1A1510] text-white border-[#1A1510]"
-                      : "border-[#1A1510]/10 text-[#1A1510]/60 hover:border-[#C5A059] hover:text-[#C5A059]"
-                  }`}
+                  className={`px-4 py-2 font-mono text-[10px] uppercase tracking-widest rounded-full border transition-all duration-300 ${activeFilter === cat
+                    ? "bg-[#1A1510] text-white border-[#1A1510]"
+                    : "border-[#1A1510]/10 text-[#1A1510]/60 hover:border-[#C5A059] hover:text-[#C5A059]"
+                    }`}
                   aria-pressed={activeFilter === cat}
                 >
                   {cat}
@@ -742,11 +905,10 @@ export default function PortfolioSection() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className={`grid gap-4 mb-40 ${
-                viewMode === "masonry"
-                  ? "grid-cols-1 md:grid-cols-3 auto-rows-[280px] md:auto-rows-[320px]"
-                  : "grid-cols-2 md:grid-cols-4 auto-rows-[300px]"
-              }`}
+              className={`grid gap-4 mb-40 ${viewMode === "masonry"
+                ? "grid-cols-1 md:grid-cols-3 auto-rows-[280px] md:auto-rows-[320px]"
+                : "grid-cols-2 md:grid-cols-4 auto-rows-[300px]"
+                }`}
               role="list"
               aria-label="Project gallery"
             >
@@ -763,132 +925,150 @@ export default function PortfolioSection() {
           </AnimatePresence>
 
           {/* --- The Premium "Live Feed" (Instagram Strip) --- */}
-          <div className="relative">
-            {/* Section Divider */}
-            <div className="flex items-center gap-4 mb-12">
-              <div className="h-px flex-1 bg-gradient-to-r from-[#C5A059]/40 to-transparent" />
-              <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#1A1510]/40">
-                Social Presence
-              </span>
-              <div className="h-px flex-1 bg-gradient-to-l from-[#C5A059]/40 to-transparent" />
-            </div>
+          <div className="relative w-full bg-[#080808] py-24 text-white overflow-hidden">
+            {/* Background Ambience */}
+            <div className="absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]" />
+            <div className="absolute top-0 right-0 -z-10 h-[500px] w-[500px] rounded-full bg-amber-900/10 blur-[120px]" />
 
-            {/* Instagram Header */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
-              <div className="flex items-center gap-4">
-                <motion.div
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="relative h-14 w-14 rounded-2xl bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#F77737] p-[2px]"
-                >
-                  <div className="h-full w-full bg-[#F9F8F6] rounded-2xl flex items-center justify-center">
-                    <Instagram className="h-6 w-6 text-[#1A1510]" aria-hidden="true" />
+            <div className="container mx-auto px-6 md:px-12">
+
+              {/* --- HEADER: Profile Architecture --- */}
+              <div className="mb-16 flex flex-col md:flex-row items-end justify-between gap-8 border-b border-white/10 pb-8">
+
+                {/* Profile Identity */}
+                <div className="flex items-center gap-6">
+                  <div className="relative group cursor-pointer">
+                    {/* Animated Story Ring */}
+                    <div className="absolute -inset-1 rounded-full bg-gradient-to-tr from-amber-400 via-rose-500 to-purple-600 opacity-80 blur-sm transition-opacity duration-500 group-hover:opacity-100 group-hover:blur-md" />
+                    <div className="relative h-20 w-20 overflow-hidden rounded-full border-[3px] border-[#080808]">
+                      <Image
+                        src="/Janaah.JPG"
+                        alt="Profile"
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                    </div>
+                    {/* Verified Badge */}
+                    <div className="absolute bottom-0 right-0 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-white ring-4 ring-[#080808]">
+                      <svg className="h-3 w-3 fill-current" viewBox="0 0 20 20">
+                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
                   </div>
-                  {/* Live Indicator */}
-                  <span
-                    className="absolute -top-1 -right-1 h-4 w-4 bg-red-500 rounded-full border-2 border-[#F9F8F6] animate-pulse"
-                    aria-label="Live"
-                  />
-                </motion.div>
-                <div>
-                  <p className="font-medium text-lg">@JannahVizora</p>
-                  <p className="text-sm text-[#1A1510]/50">24.5K Followers • 892 Posts</p>
-                </div>
-              </div>
 
-              <div className="flex items-center gap-4">
-                {/* Speed Control */}
-                <div className="flex items-center gap-2">
-                  <label
-                    htmlFor="marquee-speed"
-                    className="font-mono text-[9px] uppercase tracking-widest text-[#1A1510]/40"
+                  <div>
+                    <div className="flex items-center gap-3">
+                      <h2 className="font-serif text-2xl text-white">@JannahVizora</h2>
+                      <span className="rounded-full bg-white/10 px-2 py-0.5 text-[10px] font-medium text-white/60">
+                        Architect
+                      </span>
+                    </div>
+                    <p className="mt-1 font-mono text-xs text-amber-200/80">
+                      Visual Alchemy & Brand Strategy
+                    </p>
+
+                    {/* Stats Row */}
+                    <div className="mt-4 flex gap-6 text-sm">
+                      <div className="flex flex-col">
+                        <span className="font-bold text-white">892</span>
+                        <span className="text-white/40 text-xs">Posts</span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-white">24.5k</span>
+                        <span className="text-white/40 text-xs">Followers</span>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-bold text-white">120</span>
+                        <span className="text-white/40 text-xs">Following</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Call To Action */}
+                <div className="flex items-center gap-4">
+                  <Link
+                    href="https://instagram.com"
+                    target="_blank"
+                    className="group relative flex items-center gap-3 overflow-hidden rounded-full border border-white/20 bg-white/[0.03] px-6 py-3 transition-all hover:bg-white hover:text-black"
                   >
-                    Speed
-                  </label>
-                  <input
-                    id="marquee-speed"
-                    type="range"
-                    min="0.5"
-                    max="2"
-                    step="0.1"
-                    value={marqueeSpeed}
-                    onChange={(e) => setMarqueeSpeed(parseFloat(e.target.value))}
-                    className="w-20 h-1 bg-[#1A1510]/10 rounded-full appearance-none cursor-pointer accent-[#C5A059]"
-                  />
+                    <Instagram className="h-4 w-4" />
+                    <span className="font-mono text-xs uppercase tracking-widest">Follow Jannah</span>
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1" />
+                  </Link>
                 </div>
-
-                {/* Pause/Play */}
-                <button
-                  onClick={() => setIsMarqueePaused(!isMarqueePaused)}
-                  className="h-10 w-10 rounded-full border border-[#1A1510]/10 flex items-center justify-center hover:border-[#C5A059] hover:text-[#C5A059] transition-colors"
-                  aria-label={isMarqueePaused ? "Play marquee" : "Pause marquee"}
-                >
-                  {isMarqueePaused ? (
-                    <Play className="h-4 w-4" aria-hidden="true" />
-                  ) : (
-                    <Pause className="h-4 w-4" aria-hidden="true" />
-                  )}
-                </button>
-
-                <MagneticButton className="group px-6 py-3 border border-[#1A1510]/10 rounded-full hover:border-[#C5A059] hover:bg-[#C5A059]/5 transition-all">
-                  <span className="flex items-center gap-2 text-xs font-mono uppercase tracking-widest">
-                    Follow
-                    <ArrowUpRight
-                      className="h-3 w-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-                      aria-hidden="true"
-                    />
-                  </span>
-                </MagneticButton>
               </div>
-            </div>
 
-            {/* Premium Marquee Container */}
-            <div className="relative overflow-hidden rounded-2xl bg-[#1A1510]/[0.02] p-4">
-              {/* Fade Edges */}
-              <div
-                className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#F9F8F6] to-transparent z-10 pointer-events-none"
-                aria-hidden="true"
-              />
-              <div
-                className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#F9F8F6] to-transparent z-10 pointer-events-none"
-                aria-hidden="true"
-              />
+              {/* --- THE EDITORIAL GRID (Bento Layout) --- */}
+              <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
 
-              <Marquee
-                items={INSTA_FEED}
-                speed={marqueeSpeed}
-                isPaused={isMarqueePaused}
-                onHover={handleMarqueeHover}
-              />
-            </div>
+                {/* Map through posts */}
+                {INSTA_POSTS.map((post, index) => (
+                  <motion.div
+                    key={post.id}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    onMouseEnter={() => setHoveredPost(post.id)}
+                    onMouseLeave={() => setHoveredPost(null)}
+                    className={`relative group cursor-pointer overflow-hidden rounded-sm ${post.isLarge ? "col-span-2 row-span-2 aspect-square" : "col-span-1 aspect-square"
+                      }`}
+                  >
+                    {/* Image */}
+                    <Image
+                      src={post.image}
+                      alt="Instagram Post"
+                      fill
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
 
-            {/* Stats Bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="grid grid-cols-4 gap-4 mt-10 pt-10 border-t border-[#C5A059]/10"
-            >
-              {[
-                { label: "Posts", value: "892" },
-                { label: "Followers", value: "24.5K" },
-                { label: "Engagement", value: "8.2%" },
-                { label: "Reach", value: "1.2M" },
-              ].map((stat, i) => (
+                    {/* Overlay (Instagram UI Style) */}
+                    <div className="absolute inset-0 bg-black/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex flex-col justify-center items-center gap-4 p-6 text-center">
+
+                      {/* Hover Content */}
+                      <div className="flex items-center gap-6 translate-y-4 transition-transform duration-300 group-hover:translate-y-0">
+                        <div className="flex items-center gap-2">
+                          <Heart className="h-5 w-5 fill-white text-white" />
+                          <span className="font-bold text-sm">{post.likes}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MessageCircle className="h-5 w-5 fill-white text-white" />
+                          <span className="font-bold text-sm">{post.comments}</span>
+                        </div>
+                      </div>
+
+                      {post.isLarge && (
+                        <p className="translate-y-4 text-xs text-white/80 line-clamp-2 transition-transform duration-300 delay-75 group-hover:translate-y-0 max-w-[200px]">
+                          {post.caption}
+                        </p>
+                      )}
+
+                      {/* External Link Icon */}
+                      <div className="absolute top-4 right-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <ExternalLink className="h-4 w-4 text-white/70" />
+                      </div>
+                    </div>
+                  </motion.div>
+                ))}
+
+                {/* Last Box: "View All" CTA */}
                 <motion.div
-                  key={stat.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="text-center"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  className="col-span-1 aspect-square flex flex-col items-center justify-center rounded-sm border border-white/10 bg-white/[0.02] text-center p-4 hover:bg-white/[0.05] transition-colors cursor-pointer group"
                 >
-                  <p className="text-3xl md:text-4xl font-light text-[#1A1510]">{stat.value}</p>
-                  <p className="font-mono text-[9px] uppercase tracking-widest text-[#1A1510]/40 mt-1">
-                    {stat.label}
-                  </p>
+                  <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/5 group-hover:scale-110 transition-transform">
+                    <Sparkles className="h-5 w-5 text-amber-200" />
+                  </div>
+                  <span className="font-serif text-lg text-white">View Archive</span>
+                  <span className="font-mono text-[10px] text-white/40 uppercase tracking-widest mt-2">@JannahVizora</span>
                 </motion.div>
-              ))}
-            </motion.div>
+
+              </div>
+
+            </div>
           </div>
         </motion.div>
 

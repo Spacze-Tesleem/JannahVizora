@@ -5,11 +5,13 @@ import ArchitecturalProjectIndex from "./components/Architectural";
 import ServicesSection from "./components/Services";
 import PortfolioSection from "./components/Portfolio";
 import ContactSection from "./components/Contact";
+import JannahAbout from "./components/Aboutpreview";
 
 export default function Home() {
   return (
       <main className="min-h-screen">
         <Hero />
+        <JannahAbout />
         <About />
         <ArchitecturalProjectIndex />
         <ServicesSection />
