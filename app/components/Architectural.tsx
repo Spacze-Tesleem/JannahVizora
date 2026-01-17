@@ -2,10 +2,9 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { motion, useSpring, useMotionValue } from "framer-motion";
-import { ArrowRight, MoveUpRight } from "lucide-react";
+import { motion, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
+import { MoveUpRight, Info, Scan, Maximize2 } from "lucide-react";
 
-// --- Data ---
 const PROJECTS = [
   {
     id: "01",
@@ -57,117 +56,164 @@ export default function ArchitecturalProjectIndex() {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // --- Cursor Physics ---
+  // --- Physics-based Cursor Tracking ---
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth out the movement
-  const springConfig = { damping: 20, stiffness: 150, mass: 0.5 };
+  const springConfig = { damping: 25, stiffness: 200, mass: 0.6 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    // Get cursor position relative to the container
+    if (!containerRef.current) return;
     const { clientX, clientY } = e;
-    const { left, top } = containerRef.current!.getBoundingClientRect();
+    const { left, top } = containerRef.current.getBoundingClientRect();
     
-    // Center the image on the cursor (assuming image width ~400px/height ~300px)
-    mouseX.set(clientX - left - 200); 
-    mouseY.set(clientY - top - 150);
+    // Offset so image is centered on cursor
+    mouseX.set(clientX - left - 225); // 225 is half of 450px width
+    mouseY.set(clientY - top - 150);  // 150 is half of 300px height
   };
 
   return (
     <section
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen w-full bg-[#080808] text-white selection:bg-amber-200 selection:text-black overflow-hidden"
+      className="relative min-h-screen w-full bg-[#050505] text-zinc-100 selection:bg-amber-500/30 overflow-hidden font-sans"
     >
-      {/* Background Noise & Grid */}
-      <div className="pointer-events-none absolute inset-0 z-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]" />
-      <div className="pointer-events-none absolute inset-0 z-0 flex justify-between px-6 md:px-20 opacity-[0.02]">
-        <div className="h-full w-px bg-white" />
-        <div className="h-full w-px bg-white" />
-        <div className="h-full w-px bg-white" />
+      {/* --- Drafting Background --- */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
+        {/* Fine Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]" />
+        {/* Grain */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
+        {/* Ambient Glow */}
+        <div className="absolute top-0 left-1/4 w-1/2 h-1/2 bg-amber-500/5 blur-[120px] rounded-full" />
       </div>
 
-      {/* --- Floating Lens (The Image) --- */}
+      {/* --- Floating Visual Lens (Desktop Only) --- */}
       <motion.div
         style={{ left: smoothX, top: smoothY }}
         animate={{
           opacity: activeProject.isActive ? 1 : 0,
           scale: activeProject.isActive ? 1 : 0.8,
+          rotate: activeProject.isActive ? 0 : -2,
         }}
-        transition={{ duration: 0.4, ease: "circOut" }}
-        className="pointer-events-none absolute z-20 hidden h-[300px] w-[400px] overflow-hidden rounded-sm md:block"
+        className="pointer-events-none absolute z-40 hidden md:block w-[450px] h-[300px]"
       >
-        <div className="relative h-full w-full bg-[#1a1a1a]">
-            {PROJECTS.map((project, index) => (
+        <div className="relative h-full w-full p-2 bg-zinc-900/80 backdrop-blur-xl border border-white/10 rounded-sm shadow-2xl">
+          <div className="relative h-full w-full overflow-hidden bg-black">
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={activeProject.index}
+                initial={{ opacity: 0, scale: 1.1 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="absolute inset-0"
+              >
                 <Image
-                key={project.id}
-                src={project.image}
-                alt={project.title}
-                fill
-                className={`object-cover transition-opacity duration-500 ${
-                    activeProject.index === index ? "opacity-100" : "opacity-0"
-                }`}
+                  src={PROJECTS[activeProject.index].image}
+                  alt="Project Preview"
+                  fill
+                  className="object-cover saturate-50 contrast-125"
                 />
-            ))}
-            {/* Lens UI Overlay */}
-            <div className="absolute bottom-4 left-4 right-4 flex justify-between border-t border-white/20 pt-2">
-                 <span className="font-mono text-[10px] uppercase text-white/80">View Case Study</span>
-                 <ArrowRight className="h-3 w-3 text-white" />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Lens HUD Elements */}
+            <div className="absolute top-3 left-3 flex items-center gap-2 px-2 py-1 bg-black/50 backdrop-blur-md rounded border border-white/10">
+              <Scan className="h-3 w-3 text-amber-500" />
+              <span className="font-mono text-[9px] uppercase tracking-widest">Preview Mode</span>
             </div>
+            
+            <div className="absolute bottom-3 right-3">
+              <div className="h-8 w-8 rounded-full bg-white text-black flex items-center justify-center">
+                <Maximize2 size={14} />
+              </div>
+            </div>
+          </div>
         </div>
+        
+        {/* Scanning Line Effect */}
+        <motion.div 
+          animate={{ top: ["0%", "100%", "0%"] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+          className="absolute left-0 w-full h-[1px] bg-amber-500/50 z-50 shadow-[0_0_15px_rgba(245,158,11,0.5)]" 
+        />
       </motion.div>
 
-      {/* --- Main Content --- */}
-      <div className="relative z-30 flex min-h-screen flex-col px-6 py-20 md:px-20 md:py-32">
+      {/* --- Main Interface --- */}
+      <div className="relative z-10 flex flex-col px-6 py-12 md:px-16 lg:px-24">
         
-        {/* Header */}
-        <div className="mb-20 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <span className="mb-4 block font-mono text-xs text-amber-200/80">
-              / ARCHIVE 2023-2025
-            </span>
-            <h1 className="font-serif text-5xl text-white md:text-7xl">
-              Selected Works
+        {/* Header Section */}
+        <header className="mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="h-2 w-2 rounded-full bg-amber-500 animate-pulse" />
+              <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-zinc-500">
+                Project Index / Portfolio v2
+              </span>
+            </div>
+            <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl leading-[0.8] tracking-tighter">
+              Selected <br /> <span className="italic text-zinc-400">Works</span>
             </h1>
           </div>
-          <div className="h-px w-full max-w-[200px] bg-white/20 md:w-auto" />
+          
+          <div className="max-w-xs text-right">
+             <p className="font-mono text-[10px] text-zinc-500 uppercase leading-relaxed mb-4">
+               A curation of structures built between 2022 and 2025. Focused on the intersection of brutalism and human necessity.
+             </p>
+             <div className="flex justify-end gap-2">
+               <span className="px-3 py-1 rounded-full border border-white/10 text-[9px] uppercase font-mono tracking-widest">Global Archive</span>
+               <span className="px-3 py-1 rounded-full bg-white text-black text-[9px] uppercase font-mono tracking-widest font-bold">Inquiry</span>
+             </div>
+          </div>
+        </header>
+
+        {/* Index Table */}
+        <div className="w-full">
+          {/* Table Head */}
+          <div className="hidden md:grid grid-cols-12 border-b border-white/5 pb-6 text-[10px] font-mono uppercase tracking-[0.3em] text-zinc-600">
+            <div className="col-span-1">Ref.</div>
+            <div className="col-span-6">Project Nomenclature</div>
+            <div className="col-span-2">Location</div>
+            <div className="col-span-2">Typology</div>
+            <div className="col-span-1 text-right">Phase</div>
+          </div>
+
+          {/* Table Body */}
+          <div 
+            className="group/list divide-y divide-white/5"
+            onMouseLeave={() => setActiveProject({ isActive: false, index: 0 })}
+          >
+            {PROJECTS.map((project, index) => (
+              <ProjectRow
+                key={project.id}
+                project={project}
+                index={index}
+                onHover={() => setActiveProject({ isActive: true, index })}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* The List */}
-        <div className="flex flex-col">
-            {/* Header Row */}
-            <div className="mb-6 grid grid-cols-12 border-b border-white/10 pb-4 text-xs font-mono uppercase tracking-widest text-white/30">
-                <div className="col-span-1 hidden md:block">No.</div>
-                <div className="col-span-8 md:col-span-5">Project Name</div>
-                <div className="col-span-2 hidden md:block">Location</div>
-                <div className="col-span-2 hidden md:block">Service</div>
-                <div className="col-span-4 text-right md:col-span-2">Year</div>
-            </div>
-
-            {/* Project Rows */}
-            <div 
-                className="group/list" 
-                onMouseLeave={() => setActiveProject({ isActive: false, index: 0 })}
-            >
-                {PROJECTS.map((project, index) => (
-                    <ProjectRow
-                        key={project.id}
-                        project={project}
-                        index={index}
-                        onHover={() => setActiveProject({ isActive: true, index })}
-                    />
-                ))}
-            </div>
-        </div>
+        {/* Footer Meta */}
+        <footer className="mt-24 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 opacity-30">
+          <div className="flex gap-12 font-mono text-[10px] uppercase tracking-widest">
+            <div>© 2024 Vizora</div>
+            <div>34.0522° N, 118.2437° W</div>
+          </div>
+          <div className="flex gap-4 items-center">
+            <Info size={14} />
+            <span className="font-mono text-[10px] uppercase tracking-widest">Scroll to explore archive</span>
+          </div>
+        </footer>
       </div>
     </section>
   );
 }
 
-// --- Individual Row Component ---
+// --- Row Component ---
 function ProjectRow({
   project,
   index,
@@ -180,46 +226,48 @@ function ProjectRow({
   return (
     <motion.div
       onMouseEnter={onHover}
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      transition={{ delay: index * 0.1 }}
-      className="group/row relative grid cursor-pointer grid-cols-12 items-center border-b border-white/10 py-8 transition-colors duration-500 hover:border-white/30 md:py-12"
+      className="group/row relative grid grid-cols-1 md:grid-cols-12 items-center py-8 md:py-16 cursor-pointer transition-all duration-700"
     >
-      {/* 
-         Mix-blend-difference allows text to invert colors when the 
-         floating image (which is z-20) passes underneath this row (z-30).
-         Wait... actually, for mix-blend to work, the text needs to be on TOP 
-         of the image, and the blend mode applied to the TEXT container.
-      */}
-      
-      <div className="col-span-1 hidden font-mono text-sm text-white/30 transition-colors group-hover/row:text-amber-200 md:block mix-blend-difference">
-        /{project.id}
+      {/* Mobile Image (Inline) */}
+      <div className="md:hidden w-full h-48 mb-6 overflow-hidden rounded-sm relative grayscale hover:grayscale-0 transition-all">
+          <Image src={project.image} alt={project.title} fill className="object-cover" />
       </div>
-      
-      <div className="col-span-8 md:col-span-5 mix-blend-difference">
-        <h2 className="font-serif text-3xl transition-all duration-500 group-hover/row:translate-x-4 group-hover/row:text-white md:text-5xl lg:text-6xl text-white/70">
-          {project.title}
+
+      {/* Row Contents */}
+      <div className="col-span-1 hidden md:block font-mono text-xs text-zinc-700 group-hover/row:text-amber-500 transition-colors">
+        [{project.id}]
+      </div>
+
+      <div className="col-span-6 relative overflow-hidden">
+        <h2 className="font-serif text-4xl md:text-6xl lg:text-7xl tracking-tighter transition-all duration-700 group-hover/row:translate-x-4">
+          <span className="block group-hover/row:italic group-hover/row:text-amber-500 transition-all">
+            {project.title}
+          </span>
         </h2>
       </div>
 
-      <div className="col-span-2 hidden font-sans text-sm tracking-wide text-white/50 md:block mix-blend-difference">
+      <div className="col-span-2 hidden md:block font-mono text-[10px] uppercase tracking-widest text-zinc-500 group-hover/row:text-zinc-300">
         {project.location}
       </div>
 
-      <div className="col-span-2 hidden md:block mix-blend-difference">
-        <span className="rounded-full border border-white/10 px-3 py-1 font-mono text-xs uppercase text-white/50 backdrop-blur-sm">
-            {project.service}
+      <div className="col-span-2 hidden md:block">
+        <span className="px-4 py-2 rounded-full border border-white/5 font-mono text-[9px] uppercase tracking-[0.2em] group-hover/row:border-amber-500/30 group-hover/row:text-amber-500 transition-colors">
+          {project.service}
         </span>
       </div>
 
-      <div className="col-span-4 flex justify-end gap-4 text-right md:col-span-2 mix-blend-difference">
-         <span className="font-mono text-sm text-white/30">{project.year}</span>
-         <MoveUpRight className="h-5 w-5 text-white/0 transition-all duration-300 group-hover/row:text-amber-200 group-hover/row:-translate-y-1 group-hover/row:translate-x-1" />
+      <div className="col-span-1 flex justify-end items-center gap-4">
+        <span className="font-mono text-xs text-zinc-600">'{project.year.slice(-2)}</span>
+        <div className="h-10 w-10 rounded-full border border-white/10 flex items-center justify-center opacity-0 group-hover/row:opacity-100 transition-all duration-500 translate-x-4 group-hover/row:translate-x-0 bg-white text-black">
+          <MoveUpRight size={18} />
+        </div>
       </div>
 
-      {/* Hover Background for Row (optional highlight) */}
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-white/[0.03] to-transparent opacity-0 transition-opacity duration-500 group-hover/row:opacity-100" />
+      {/* Background Hover Stripe */}
+      <div className="absolute inset-x-[-100vw] inset-y-0 -z-10 bg-white/[0.02] opacity-0 group-hover/row:opacity-100 transition-opacity duration-500" />
     </motion.div>
   );
 }

@@ -1,136 +1,302 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, Sparkles } from "lucide-react";
+import Image from "next/image";
+import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useMotionValueEvent,
+  useMotionValue,
+} from "framer-motion";
+import { ArrowUpRight, Sparkles, Menu, X } from "lucide-react";
 
+// --- Constants ---
 const NAV_ITEMS = [
   { name: "Vision", href: "#vision" },
   { name: "Projects", href: "#projects" },
   { name: "Studio", href: "#studio" },
   { name: "Journal", href: "#journal" },
-];
+] as const;
 
-export default function Navbar() {
-  const [activeTab, setActiveTab] = useState(NAV_ITEMS[0].name);
-  const [isScrolled, setIsScrolled] = useState(false);
+// --- Magnetic Wrapper (desktop CTA) ---
+const Magnetic: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-  // Detect scroll to adjust glass intensity
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const middleX = e.clientX - (rect.left + rect.width / 2);
+    const middleY = e.clientY - (rect.top + rect.height / 2);
+    x.set(middleX * 0.15);
+    y.set(middleY * 0.15);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
-    <motion.nav
-      initial={{ y: -100, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-0 left-0 w-full z-50 px-6 py-6 pointer-events-none"
+    <motion.div
+      ref={ref}
+      style={{ x, y }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      transition={{ type: "spring", stiffness: 160, damping: 18, mass: 0.2 }}
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center">
-        
-        {/* --- LEFT: Brand Identity --- */}
-        <div className="pointer-events-auto">
-          <Link href="/" className="group flex items-center gap-3">
-            <div className="relative flex items-center justify-center w-10 h-10 rounded-full bg-[#1c1917] border border-white/10 overflow-hidden shadow-lg group-hover:scale-105 transition-transform duration-500">
-              <Sparkles className="w-4 h-4 text-[#C5A059] group-hover:rotate-90 transition-transform duration-700 ease-[0.22,1,0.36,1]" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-50" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-serif text-xl tracking-tight text-[#1c1917] leading-none group-hover:opacity-70 transition-opacity">
-                Jannah Vizora
-              </span>
-              <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-[#C5A059] opacity-0 group-hover:opacity-100 -translate-y-2 group-hover:translate-y-0 transition-all duration-500">
-                Portfolio
-              </span>
-            </div>
-          </Link>
-        </div>
-
-        {/* --- CENTER: Floating Glass Navigation --- */}
-        <div className="pointer-events-auto hidden md:block">
-          <motion.div
-            animate={{
-              width: "auto",
-              padding: isScrolled ? "0.35rem 0.35rem" : "0.5rem 0.5rem",
-              backgroundColor: isScrolled ? "rgba(255, 255, 255, 0.8)" : "rgba(255, 255, 255, 0.4)",
-              backdropFilter: "blur(12px)",
-              borderColor: isScrolled ? "rgba(28, 25, 23, 0.05)" : "rgba(255, 255, 255, 0.2)",
-            }}
-            className="flex items-center gap-1 rounded-full border shadow-sm transition-all duration-500"
-          >
-            {NAV_ITEMS.map((item) => {
-              const isActive = activeTab === item.name;
-
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setActiveTab(item.name)}
-                  className="relative px-5 py-2.5 rounded-full text-sm font-medium transition-colors duration-300 z-10"
-                >
-                  {/* Hover/Active Text Color Logic */}
-                  <span
-                    className={`relative z-10 transition-colors duration-200 ${
-                      isActive ? "text-[#FAFAF9]" : "text-[#1c1917]/60 hover:text-[#1c1917]"
-                    }`}
-                  >
-                    {item.name}
-                  </span>
-
-                  {/* The Fluid "Pill" Background */}
-                  {isActive && (
-                    <motion.div
-                      layoutId="nav-pill"
-                      className="absolute inset-0 bg-[#1c1917] rounded-full shadow-lg shadow-black/10"
-                      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                    >
-                      {/* Subtle lighting effect on the pill */}
-                      <div className="absolute top-0 left-0 right-0 h-[1px] bg-white/20 rounded-t-full" />
-                    </motion.div>
-                  )}
-                </Link>
-              );
-            })}
-          </motion.div>
-        </div>
-
-        {/* --- RIGHT: CTA Button --- */}
-        <div className="pointer-events-auto">
-          <motion.button
-            whileHover="hover"
-            className="relative overflow-hidden group flex items-center gap-2 px-6 py-3 bg-[#1c1917] text-[#FAFAF9] rounded-full shadow-xl shadow-stone-900/10"
-          >
-            <span className="relative z-10 font-mono text-xs uppercase tracking-widest">
-              Let's Talk
-            </span>
-            <motion.div
-              variants={{
-                hover: { rotate: 45 },
-              }}
-              transition={{ duration: 0.3 }}
-              className="relative z-10"
-            >
-              <ArrowUpRight className="w-4 h-4 text-[#C5A059]" />
-            </motion.div>
-
-            {/* Hover Fill Effect */}
-            <motion.div
-              variants={{
-                hover: { y: 0 },
-              }}
-              initial={{ y: "100%" }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="absolute inset-0 bg-[#C5A059]"
-            />
-          </motion.button>
-        </div>
-      </div>
-    </motion.nav>
+      {children}
+    </motion.div>
   );
-}
+};
+
+// --- Mobile Fullscreen Menu ---
+const MobileMenu: React.FC<{
+  isOpen: boolean;
+  onClose: () => void;
+}> = ({ isOpen, onClose }) => {
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, y: "-100%" }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: "-100%" }}
+          transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+          className="fixed inset-0 z-40 flex flex-col justify-between bg-[#1c1917] px-6 pt-6 pb-10 md:hidden"
+        >
+          {/* Header row */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-[#FAFAF9]">
+              
+            </div>
+            <button
+              onClick={onClose}
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#FAFAF9]/10 text-[#FAFAF9]"
+            >Ima
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+
+          {/* Links */}
+          <div className="flex flex-col gap-6 pl-2">
+            {NAV_ITEMS.map((item, index) => (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, x: -40 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -40 }}
+                transition={{ duration: 0.45, delay: 0.1 + index * 0.08 }}
+              >
+                <Link
+                  href={item.href}
+                  onClick={onClose}
+                  className="block font-serif text-4xl text-[#FAFAF9] transition-colors hover:text-[#C5A059] sm:text-5xl"
+                >
+                  {item.name}
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Footer */}
+          <div className="border-t border-white/10 pt-5">
+            <button className="flex w-full items-center justify-center gap-2 rounded-full bg-[#FAFAF9] py-3 text-xs font-mono uppercase tracking-[0.2em] text-[#1c1917]">
+              Let&apos;s Talk
+              <ArrowUpRight className="h-4 w-4" />
+            </button>
+            <div className="mt-4 flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.25em] text-white/40">
+              <span>Instagram</span>
+              <span>© {new Date().getFullYear()}</span>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+// --- Main Navbar ---
+const Navbar: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<string>(NAV_ITEMS[0].name);
+  const [hoveredTab, setHoveredTab] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const { scrollY } = useScroll();
+
+  // On-scroll behavior: compact + hide-on-scroll-down
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const prev = scrollY.getPrevious() ?? 0;
+    const scrollingDown = latest > prev;
+
+    if (!mobileOpen) {
+      if (scrollingDown && latest > 150) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+    }
+
+    setIsScrolled(latest > 20);
+  });
+
+  return (
+    <>
+      <motion.nav
+        variants={{
+          visible: { y: 0, opacity: 1 },
+          hidden: { y: -80, opacity: 0 },
+        }}
+        animate={hidden ? "hidden" : "visible"}
+        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+        className="pointer-events-none fixed inset-x-0 top-0 z-50"
+      >
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+          {/* Brand */}
+          <div className="pointer-events-auto">
+            <Link
+              href="/"
+              className="group flex items-center gap-3"
+              onClick={() => setMobileOpen(false)}
+            >
+              <Image
+                src="/brand.png"
+                alt="Jannah Vizora Logo"
+                width={200}
+                height={200}
+                className="h-20 w-20 transition-transform duration-300 group-hover:rotate-12"
+              />
+            </Link>
+          </div>
+
+          {/* Center Nav (Desktop) */}
+          <div className="pointer-events-auto hidden md:block">
+            <motion.div
+              animate={{
+                backgroundColor: isScrolled
+                  ? "rgba(255,255,255,0.9)"
+                  : "rgba(255,255,255,0.6)",
+                borderColor: isScrolled
+                  ? "rgba(15,23,42,0.06)"
+                  : "rgba(255,255,255,0.4)",
+                boxShadow: isScrolled
+                  ? "0 18px 40px rgba(15,23,42,0.08)"
+                  : "0 0 0 rgba(0,0,0,0)",
+              }}
+              transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+              className="flex items-center gap-1 rounded-full border px-1.5 py-1.5 backdrop-blur-xl"
+            >
+              {NAV_ITEMS.map((item) => {
+                const isActive = activeTab === item.name;
+                const isHovered = hoveredTab === item.name;
+
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setActiveTab(item.name)}
+                    onMouseEnter={() => setHoveredTab(item.name)}
+                    onMouseLeave={() => setHoveredTab(null)}
+                    className="relative z-10 px-5 py-2 text-sm font-medium"
+                  >
+                    <span
+                      className={`relative z-10 transition-colors duration-200 ${isActive
+                          ? "text-[#FAFAF9]"
+                          : "text-[#1c1917]/70 hover:text-[#1c1917]"
+                        }`}
+                    >
+                      {item.name}
+                    </span>
+
+                    {/* Active pill */}
+                    {isActive && (
+                      <motion.div
+                        layoutId="nav-pill"
+                        className="absolute inset-0 -z-10 rounded-full bg-[#1c1917] shadow-lg shadow-black/20"
+                        transition={{
+                          type: "spring",
+                          stiffness: 320,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+
+                    {/* Hover pill (subtle) */}
+                    {!isActive && isHovered && (
+                      <motion.div
+                        layoutId="nav-hover"
+                        className="absolute inset-0 -z-10 rounded-full bg-[#1c1917]/6"
+                        transition={{
+                          type: "spring",
+                          stiffness: 420,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                  </Link>
+                );
+              })}
+            </motion.div>
+          </div>
+
+          {/* Right: CTA / Mobile Menu */}
+          <div className="pointer-events-auto flex items-center gap-2">
+            {/* Desktop CTA */}
+            <div className="hidden md:block">
+              <Magnetic>
+                <motion.button
+                  whileHover="hover"
+                  className="relative flex items-center gap-2 overflow-hidden rounded-full bg-[#1c1917] px-6 py-2.5 text-xs font-mono uppercase tracking-[0.2em] text-[#FAFAF9] shadow-lg shadow-black/20"
+                >
+                  <span className="relative z-10">Let&apos;s Talk</span>
+                  <motion.span
+                    variants={{ hover: { rotate: 45 } }}
+                    transition={{ duration: 0.25 }}
+                    className="relative z-10"
+                  >
+                    <ArrowUpRight className="h-4 w-4 text-[#C5A059]" />
+                  </motion.span>
+                  <motion.div
+                    variants={{ hover: { y: 0 } }}
+                    initial={{ y: "100%" }}
+                    transition={{ duration: 0.4, ease: "easeInOut" }}
+                    className="absolute inset-0 bg-[#C5A059]"
+                  />
+                </motion.button>
+              </Magnetic>
+            </div>
+
+            {/* Mobile Hamburger */}
+            <button
+              onClick={() => setMobileOpen((prev) => !prev)}
+              className="flex h-11 w-11 items-center justify-center rounded-full bg-[#1c1917] text-white shadow-lg md:hidden"
+            >
+              {mobileOpen ? (
+                <X className="h-5 w-5" />
+              ) : (
+                <Menu className="h-5 w-5" />
+              )}
+            </button>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile overlay menu */}
+      <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+    </>
+  );
+};
+
+export default Navbar;
