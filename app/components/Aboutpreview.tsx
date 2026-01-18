@@ -42,14 +42,14 @@ export default function PremiumJannahAbout() {
     <section ref={containerRef} className="relative w-full bg-[#030303] text-[#e0e0e0] selection:bg-white selection:text-black">
       
       {/* --- Global Grain Texture (The "Film" Look) --- */}
-      <div className="pointer-events-none absolute inset-0 z-50 opacity-[0.04] mix-blend-overlay">
+      {/* <div className="pointer-events-none absolute inset-0 z-50 opacity-[0.04] mix-blend-overlay">
         <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'>
           <filter id='noise'>
             <feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch' />
           </filter>
           <rect width='100%' height='100%' filter='url(#noise)' />
         </svg>
-      </div>
+      </div> */}
 
       {/* --- HERO SECTION --- */}
       <div className="relative flex min-h-[110vh] flex-col justify-center px-6 pt-32 pb-20 md:px-12 lg:pt-40">

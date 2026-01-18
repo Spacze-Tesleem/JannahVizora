@@ -10,7 +10,7 @@ const SERVICES = [
     id: "01",
     title: "Signature Branding",
     label: "Identity",
-    image: "https://images.unsplash.com/photo-1600132806370-bf17e65e942f?q=80&w=2000&auto=format&fit=crop",
+    image: "/Project/brand.PNG",
     desc: "We construct brand identities that function as architectural monuments. Timeless, structurally sound, and visually silent.",
     specs: ["Core Identity", "Visual DNA", "Voice Protocol", "Motion Guidelines"],
     client: "Tier-1 Executives"
@@ -19,7 +19,7 @@ const SERVICES = [
     id: "02",
     title: "Social Architecture",
     label: "Growth",
-    image: "https://images.unsplash.com/photo-1614850523296-d8c1afc3d400?q=80&w=2000&auto=format&fit=crop",
+    image: "/Project/services.PNG",
     desc: "Strategic signal calibration. We move your brand beyond the noise into a space of pure authority and retention.",
     specs: ["Content Narratives", "Signal Engineering", "Growth Logic", "Audience Blueprint"],
     client: "High-Growth Founders"

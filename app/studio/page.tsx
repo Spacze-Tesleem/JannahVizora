@@ -28,7 +28,7 @@ export default function ProjectsPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <AnimatePresence>
-            {PROJECTS.map((proj, idx) => (
+            {PROJECTS.map((proj) => (
               <motion.div 
                 key={proj.title}
                 layout

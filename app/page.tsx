@@ -11,9 +11,9 @@ export default function Home() {
   return (
       <main className="min-h-screen">
         <Hero />
-        <JannahAbout />
+        {/* <JannahAbout /> */}
         <About />
-        <ArchitecturalProjectIndex />
+        {/* <ArchitecturalProjectIndex /> */}
         <ServicesSection />
         <PortfolioSection />
         <ContactSection />

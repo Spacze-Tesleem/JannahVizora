@@ -17,7 +17,7 @@ const NAV_ITEMS = [
   { name: "Services", href: "services" },
   { name: "Projects", href: "projects" },
   { name: "Studio", href: "studio" },
-  { name: "Journal", href: "journal" },
+  { name: "About", href: "about" },
 ] as const;
 
 // --- Magnetic Wrapper (desktop CTA) ---
@@ -176,7 +176,7 @@ const Navbar: React.FC = () => {
                 alt="Jannah Vizora Logo"
                 width={200}
                 height={200}
-                className="h-20 w-20 transition-transform duration-300 group-hover:rotate-12"
+                className="h-18 w-20 transition-transform duration-300 group-hover:rotate-12"
               />
             </Link>
           </div>
