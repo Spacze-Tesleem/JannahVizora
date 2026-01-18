@@ -14,10 +14,10 @@ import { ArrowUpRight, Sparkles, Menu, X } from "lucide-react";
 
 // --- Constants ---
 const NAV_ITEMS = [
-  { name: "Vision", href: "#vision" },
-  { name: "Projects", href: "#projects" },
-  { name: "Studio", href: "#studio" },
-  { name: "Journal", href: "#journal" },
+  { name: "Services", href: "services" },
+  { name: "Projects", href: "projects" },
+  { name: "Studio", href: "studio" },
+  { name: "Journal", href: "journal" },
 ] as const;
 
 // --- Magnetic Wrapper (desktop CTA) ---

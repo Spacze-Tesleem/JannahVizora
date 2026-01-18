@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/Services',
+        destination: '/services',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

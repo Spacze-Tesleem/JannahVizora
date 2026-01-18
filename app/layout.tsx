@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Playfair_Display, Lato } from "next/font/google";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -35,6 +36,7 @@ export default function RootLayout({
       <body>
         <Navbar />
         {children}
+        <Footer />
         </body>
     </html>
   );
